@@ -5,7 +5,6 @@
     <title>急速運送</title>
     <link rel="stylesheet" href="normal.css">
 
-
 </head>
 
     <body>
@@ -22,6 +21,7 @@
             <a href="account.php">帳號</a>
 
             <a href="index.php">首頁</a>
+
             <?php session_start(); ?>
             <?php if (empty($_SESSION["loginsession"])) { ?>
             <?php } else { ?>
@@ -29,4 +29,22 @@
             <?php } ?>
     </div>
 
+<br/ >
+<h3>
+ 配送預告
+</h3>
+<h4>
+Q:到底什麼時候包裹才會寄到我家呢?<br/>
+A:只要使用配送預告服務，包裹就會在送達前E-mail或簡訊通知收件人
+</h4>
+
+
+<h3>
+服務說明
+</h3>
+<h4>
+登入會員後，只要在填寄送表單時點選配送預告即可，我們便會在包裹送達前發送「配送預告」，告知收件人包裹預計送達的日期及時間，讓收件人可以把時間預算好，方便收件人收件
+</h4>
+</body>
 </html>
+
