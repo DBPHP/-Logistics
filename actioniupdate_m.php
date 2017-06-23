@@ -81,7 +81,34 @@ $row = mysqli_fetch_array($result);
 		
 mysqli_query($link,"SET NAMES 'UTF8'");
 
+	//改後
 	$inv_id=$_POST["inv_id"];
+
+	//未改前
+	$inv_id1=$_POST["inv_id1"];
+
+	//判斷是否相同
+	if($inv_id == $inv_id1){
+
+	}
+	else{
+		//判斷inv_id是否已有
+		if(isset($_POST["inv_id"]) && $_POST["inv_id"] != ""){
+			//改後
+			$inv_id=$_POST["inv_id"];
+			$sql = "SELECT * FROM invoice WHERE inv_id = '$inv_id'";
+			$result = mysqli_query($link, $sql);
+			$total_records = mysqli_num_rows($result);
+			//有資料
+			if ($total_records > 0) {
+				header("refresh:3;url=invoice_list.php");
+				echo "<br />編號已有";
+				exit();
+			}
+		}
+	}
+
+
 	$receiver_name=$_POST["receiver_name"];
 	$receiver_phone=$_POST["receiver_phone"];
 	$receiver_email=$_POST["receiver_email"];
@@ -93,13 +120,14 @@ mysqli_query($link,"SET NAMES 'UTF8'");
 	$mem_id=$_POST["mem_id"];
 
 
-$sql2="UPDATE invoice SET receiver_name='$receiver_name',receiver_phone='$receiver_phone',receiver_email='$receiver_email',arrive_time='$arrive_time',arrive_address='$arrive_address',send_time='$send_time',total_price='$total_price',if_success='$if_success',mem_id='$mem_id'WHERE inv_id='$inv_id'";
+$sql2="UPDATE invoice SET inv_id='$inv_id', receiver_name='$receiver_name',receiver_phone='$receiver_phone',receiver_email='$receiver_email',arrive_time='$arrive_time',arrive_address='$arrive_address',send_time='$send_time',total_price='$total_price',if_success='$if_success',mem_id='$mem_id'WHERE inv_id='$inv_id1'";
 
 $result=mysqli_query($link,$sql2);
         $result = mysqli_query($link, "SELECT * FROM invoice order by inv_id");
         echo "<table border=1>";
         echo "<thead>";
         echo "<tr>";
+        echo "<th>最後運送預告</th>";
         echo "<th>編號</th>";
         echo "<th>收件人名字</th>";
         echo "<th>收件人手機</th>";
@@ -118,6 +146,8 @@ $result=mysqli_query($link,$sql2);
 	        echo "<tr>";
         	echo "<td>";
 	        $id = $row["inv_id"];
+        	echo "<div class = 'mail'><h2><a href='send_email.php?inv_id=$id&factor=manager'>送到收件人的運送通知</a></h2></div>";
+        	echo "</td><td>";
 	        echo "<a href = 'search_by_invoice.php?inv_id=$id'>".$row["inv_id"]."</a>";
         	echo "</td><td>";
         	echo $row["receiver_name"];
